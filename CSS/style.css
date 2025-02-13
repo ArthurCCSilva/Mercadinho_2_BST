@@ -1,0 +1,53 @@
+body{
+    min-width: 372px;
+}
+
+.bg-navbar{
+    background-color: blue !important;
+}
+
+.navbar-toggler-icon {
+    filter: invert(1);
+}
+
+.nav-link{
+    color: white !important;
+    font-weight: 500;
+}
+
+.navbar-nav .nav-link:hover {
+    font-weight: 800;
+}
+
+
+/* Garante que a navbar fixa não cubra o conteúdo */
+body {
+    padding-top: 70px; /* Ajuste conforme a altura da navbar */
+}
+
+/* Limita a altura do carousel */
+#carouselExampleDark {
+    max-height: 300px;
+}
+
+/* Ajusta as imagens do carousel */
+.carousel-item img {
+    height: 300px; /* Mantém a proporção */
+    object-fit: cover; /* Evita distorções */
+}
+
+.texto-separador{
+    color: blue;
+    margin:20px 0px;
+    font-weight: 700;
+    font-size: 20pt;
+    text-decoration: none;
+}
+
+p.truncate-4l {
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* Limita a 4 linhas */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
