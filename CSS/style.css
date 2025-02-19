@@ -51,3 +51,7 @@ p.truncate-4l {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.bg-footer{
+    background-color: rgba(52, 52, 255, 0.774);
+}
