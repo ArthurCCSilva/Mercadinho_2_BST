@@ -44,6 +44,8 @@ body {
     text-decoration: none;
 }
 
+
+
 p.truncate-4l {
     display: -webkit-box;
     -webkit-line-clamp: 4; /* Limita a 4 linhas */

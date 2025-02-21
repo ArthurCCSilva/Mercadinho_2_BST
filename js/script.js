@@ -1,78 +1,101 @@
-// Variável global para armazenar todos os produtos
-let allProducts = [];
-
-// Função para inicializar a lista de produtos
-function initializeProducts() {
-    allProducts = Array.from(document.querySelectorAll('.product'));
+// Função para exibir os produtos
+function displayProducts(products) {
+    const productList = document.getElementById('product-list');
+    productList.innerHTML = ''; // Limpa qualquer conteúdo existente
+    products.forEach(product => {
+        const productDiv = document.createElement('div');
+        productDiv.className = 'col-xl-2 col-lg-3 col-md-4 col-6 product py-2';
+        productDiv.innerHTML = 
+            `<div class="card text-center bg-light h-100 d-flex flex-column" style="max-width: 250px;">
+                <img src="${product.image}" class="card-img-top" alt="${product.name}">
+                <div class="card-body">
+                    <h5 class="card-title">${product.name}</h5>
+                    <p class="card-text truncate-4l">${product.description}</p>
+                </div>
+                <div class="card-footer">
+                    <p class="card-text"><strong>R$ ${product.valor}</strong></p>
+                </div>
+            </div>`;
+        productList.appendChild(productDiv);
+    });
 }
 
-// Função para filtrar produtos por pesquisa
-document.getElementById('search-input').addEventListener('input', function () {
-    const searchTerm = this.value.toLowerCase(); // Obtém o texto digitado e converte para minúsculas
+// Função de paginação
+let currentPage = 1; // Página atual
+const productsPerPage = 12; // Número de produtos por página
 
-    // Reinicia o estado dos produtos
-    allProducts.forEach(product => {
-        product.style.display = 'block'; // Exibe todos os produtos
-    });
+function paginateProducts(products, page) {
+    const start = (page - 1) * productsPerPage;
+    const end = page * productsPerPage;
+    return products.slice(start, end);
+}
 
-    // Filtra os produtos com base no termo de pesquisa
-    allProducts.forEach(product => {
-        const productName = product.querySelector('.card-title').textContent.toLowerCase(); // Nome do produto
-        if (!productName.includes(searchTerm)) {
-            product.style.display = 'none'; // Oculta o produto se não corresponder à busca
+function updatePaginationControls(totalPages) {
+    const paginationControls = document.getElementById('pagination-controls');
+    paginationControls.innerHTML = '';
+
+    for (let i = 1; i <= totalPages; i++) {
+        const button = document.createElement('button');
+        button.innerText = i;
+        button.className = 'btn btn-outline-primary mx-1';
+        if (i === currentPage) {
+            button.classList.add('active');
         }
-    });
-});
+        button.addEventListener('click', () => {
+            currentPage = i;
+            const filteredAndSortedProducts = getFilteredAndSortedProducts();
+            const paginatedProducts = paginateProducts(filteredAndSortedProducts, currentPage);
+            displayProducts(paginatedProducts);
+            updatePaginationControls(totalPages);
+        });
+        paginationControls.appendChild(button);
+    }
+}
 
-// Função para ordenar e filtrar produtos por categoria
-function sortProducts() {
+function getFilteredAndSortedProducts() {
+    const searchTerm = document.getElementById('search-input').value.toLowerCase();
     const sortOption = document.getElementById('sort-options').value;
 
-    // Reinicia o estado dos produtos
-    allProducts.forEach(product => {
-        product.style.display = 'block'; // Exibe todos os produtos
-    });
+    // Filtra os produtos com base no termo de pesquisa
+    let filteredProducts = allProducts.filter(product =>
+        product.name.toLowerCase().includes(searchTerm) ||
+        product.description.toLowerCase().includes(searchTerm)
+    );
 
-    // Filtra os produtos com base na categoria selecionada
-    const filteredProducts = allProducts.filter(product => {
-        if (sortOption.startsWith('category-')) {
-            const category = sortOption.split('-')[1];
-            return product.getAttribute('data-category') === category;
-        }
-        return true; // Se não for uma opção de categoria, mantém todos os produtos
-    });
+    // Aplica ordenação ou filtro de categoria
+    if (sortOption === "price-asc") {
+        filteredProducts.sort((a, b) => a.price - b.price);
+    } else if (sortOption === "price-desc") {
+        filteredProducts.sort((a, b) => b.price - a.price);
+    } else if (sortOption.startsWith("category-")) {
+        let category = sortOption.replace("category-", "");
+        filteredProducts = filteredProducts.filter(product => product.category === category);
+    }
 
-    // Ordena os produtos com base na opção selecionada
-    filteredProducts.sort((a, b) => {
-        if (sortOption === 'price-desc') {
-            return parseFloat(b.getAttribute('data-price')) - parseFloat(a.getAttribute('data-price'));
-        } else if (sortOption === 'price-asc') {
-            return parseFloat(a.getAttribute('data-price')) - parseFloat(b.getAttribute('data-price'));
-        }
-        return 0; // Default: não altera a ordem
-    });
-
-    // Reorganiza os produtos no DOM
-    const productList = document.getElementById('product-list');
-    productList.innerHTML = ''; // Limpa a lista atual
-
-    // Adiciona os produtos filtrados e ordenados de volta à lista
-    filteredProducts.forEach(product => {
-        productList.appendChild(product);
-    });
-
-    // Oculta os produtos que não foram filtrados
-    allProducts.forEach(product => {
-        if (!filteredProducts.includes(product)) {
-            product.style.display = 'none';
-        }
-    });
+    return filteredProducts;
 }
 
-// Event Listener para ordenação
-document.getElementById('sort-options').addEventListener('change', sortProducts);
+// Atualiza a exibição dos produtos com base na página atual
+function updateProductDisplay() {
+    const filteredAndSortedProducts = getFilteredAndSortedProducts();
+    const totalPages = Math.ceil(filteredAndSortedProducts.length / productsPerPage);
 
-// Inicializa os produtos ao carregar a página
-document.addEventListener('DOMContentLoaded', () => {
-    initializeProducts();
+    const paginatedProducts = paginateProducts(filteredAndSortedProducts, currentPage);
+    displayProducts(paginatedProducts);
+    updatePaginationControls(totalPages);
+}
+
+// Exibe todos os produtos inicialmente
+updateProductDisplay();
+
+// Função de pesquisa
+document.getElementById('search-input').addEventListener('input', function () {
+    currentPage = 1; // Volta para a primeira página ao pesquisar
+    updateProductDisplay();
+});
+
+// Função para filtrar e ordenar produtos
+document.getElementById('sort-options').addEventListener('change', function () {
+    currentPage = 1; // Volta para a primeira página ao mudar a ordenação
+    updateProductDisplay();
 });
