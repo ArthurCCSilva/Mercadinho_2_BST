@@ -34,7 +34,31 @@ function updatePaginationControls(totalPages) {
     const paginationControls = document.getElementById('pagination-controls');
     paginationControls.innerHTML = '';
 
-    for (let i = 1; i <= totalPages; i++) {
+    // Cria a seta de voltar
+    const prevButton = document.createElement('button');
+    prevButton.innerText = '<';
+    prevButton.className = 'btn btn-outline-primary mx-1';
+    prevButton.disabled = currentPage === 1; // Desativa se estiver na primeira página
+    prevButton.addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            updateProductDisplay();
+        }
+    });
+    paginationControls.appendChild(prevButton);
+
+    // Calcula o intervalo de páginas a serem exibidas (grupo de 3 centrado na página atual)
+    const maxPagesToShow = 3; // Máximo de páginas visíveis
+    let startPage = Math.max(currentPage - 1, 1); // Garante que não seja menor que 1
+    let endPage = Math.min(startPage + maxPagesToShow - 1, totalPages); // Garante que não ultrapasse totalPages
+
+    // Ajusta o início para manter o grupo de 3 páginas
+    if (endPage - startPage + 1 < maxPagesToShow) {
+        startPage = Math.max(endPage - maxPagesToShow + 1, 1);
+    }
+
+    // Exibe os números das páginas
+    for (let i = startPage; i <= endPage; i++) {
         const button = document.createElement('button');
         button.innerText = i;
         button.className = 'btn btn-outline-primary mx-1';
@@ -43,13 +67,23 @@ function updatePaginationControls(totalPages) {
         }
         button.addEventListener('click', () => {
             currentPage = i;
-            const filteredAndSortedProducts = getFilteredAndSortedProducts();
-            const paginatedProducts = paginateProducts(filteredAndSortedProducts, currentPage);
-            displayProducts(paginatedProducts);
-            updatePaginationControls(totalPages);
+            updateProductDisplay();
         });
         paginationControls.appendChild(button);
     }
+
+    // Cria a seta de avançar
+    const nextButton = document.createElement('button');
+    nextButton.innerText = '>';
+    nextButton.className = 'btn btn-outline-primary mx-1';
+    nextButton.disabled = currentPage === totalPages; // Desativa se estiver na última página
+    nextButton.addEventListener('click', () => {
+        if (currentPage < totalPages) {
+            currentPage++;
+            updateProductDisplay();
+        }
+    });
+    paginationControls.appendChild(nextButton);
 }
 
 function getFilteredAndSortedProducts() {

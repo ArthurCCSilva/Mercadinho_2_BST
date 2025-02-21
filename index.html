@@ -27,7 +27,8 @@
 
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="#">INÍCIO</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">HOME</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">PRODUTOS EM GERAL</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">ALIMENTOS</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">BEBIDAS</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">CARNE</a></li>
@@ -90,7 +91,7 @@
             <div class="row">
 
                 <!-- Barra de pesquisa -->
-                <div class="col-12 col-md-5">
+                <div class="col-12  col-md-5">
                     <form class="justify-content-center justify-content-md-start" onsubmit="return false;">
                         <div class="input-group input-group-sm">
                             <input type="text" class="form-control" id="search-input" placeholder="Digite aqui o que procura">
@@ -100,11 +101,11 @@
                         </div>
                     </form>
                 </div>
-                 
-                <!-- Barra de ordenação -->
-                <div class="col-12 col-md-7">
-                    <div class="d-flex flex-row-reverse justify-content-center justify-content-md-start">
-                        <form class="ml-3 d-inline-block ">
+                 <!--barra-->
+                <div class="col-12  col-md-7">
+                    <!-- Barra de ordenação-->
+                    <div class="d-flex flex-column flex-row-reverse justify-content-center justify-content-md-start">
+                        <form class="ml-3 d-inline-block">
                             <select id="sort-options" class="form-select form-select-sm">
                                 <option value="default">Todos os produtos</option>
                                 <option value="price-desc">Maior preço</option>
@@ -116,10 +117,10 @@
                             </select>
                         </form>
                         <div style="width: 5px;"></div>
-                        <!-- Páginas 1 a 5 -->
-                        <div class="col-12 col-md-5">
+                        <!-- Barra de paginação-->
+                        <div class="order-1 order-md-2">
                             <div class="flex-row-reverse justify-content-md-start d-flex">
-                                <div id="pagination-controls" class=" justify-content-center "></div>
+                                <div id="pagination-controls" class="justify-content-center"></div>
                             </div>
                         </div>
                     </div>

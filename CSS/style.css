@@ -44,6 +44,30 @@ body {
     text-decoration: none;
 }
 
+/* Estilo personalizado para os botões de paginação */
+#pagination-controls .btn {
+    padding: 0.25rem 0.5rem; /* Reduz o preenchimento interno */
+    font-size: 0.875rem;     /* Diminui o tamanho da fonte */
+    line-height: 1.2;        /* Ajusta a altura da linha */
+    min-width: 30px;         /* Define uma largura mínima para os botões */
+    height: 30px;            /* Define uma altura fixa */
+    display: inline-block;           /* Centraliza o conteúdo horizontalmente */
+    align-items: center;     /* Centraliza o conteúdo verticalmente */
+    justify-content: center; /* Centraliza o texto dentro do botão */
+}
+
+@media (max-width: 426px) {
+    #pagination-controls .btn{
+        padding: 0.15rem 0.3rem; /* Reduz ainda mais o preenchimento interno */
+        font-size: 0.7rem;       /* Diminui o tamanho da fonte */
+        min-width: 25px;         /* Reduz a largura mínima */
+        height: 25px;            /* Reduz a altura */
+        margin-top: 10px;
+    }
+    #sort-options{
+        margin-top: 8px;
+    }
+}
 
 
 p.truncate-4l {
