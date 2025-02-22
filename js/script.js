@@ -1,4 +1,4 @@
-// Função para exibir os produtos
+//Mostrarprodutos em geral
 function displayProducts(products) {
     const productList = document.getElementById('product-list');
     productList.innerHTML = ''; // Limpa qualquer conteúdo existente
