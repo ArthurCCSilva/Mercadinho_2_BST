@@ -56,6 +56,10 @@ body {
     justify-content: center; /* Centraliza o texto dentro do botão */
 }
 
+.produtocarrinho{
+    width: 50%;
+}
+
 @media (max-width: 426px) {
     #pagination-controls .btn{
         padding: 0.15rem 0.3rem; /* Reduz ainda mais o preenchimento interno */
@@ -66,6 +70,9 @@ body {
     }
     #sort-options{
         margin-top: 8px;
+    }
+    .produtocarrinho{
+        width: 190px;
     }
 }
 
